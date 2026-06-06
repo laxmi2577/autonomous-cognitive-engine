@@ -1,0 +1,92 @@
+[
+    {
+        "id": 1,
+        "category": "research_report",
+        "prompt": "Research the current state of quantum computing and write a comprehensive report covering major companies, breakthroughs, and applications.",
+        "expected_features": ["multiple_sections", "companies_listed", "applications"]
+    },
+    {
+        "id": 2,
+        "category": "research_report",
+        "prompt": "Research the top 5 programming languages in 2026 and compare their popularity, use cases, and job market demand.",
+        "expected_features": ["comparison_table", "rankings", "job_data"]
+    },
+    {
+        "id": 3,
+        "category": "research_report",
+        "prompt": "Research renewable energy trends globally and write a report on solar, wind, and battery storage developments.",
+        "expected_features": ["multiple_energy_types", "global_data", "trends"]
+    },
+    {
+        "id": 4,
+        "category": "research_report",
+        "prompt": "Research the impact of AI on healthcare covering diagnostics, drug discovery, and ethical considerations.",
+        "expected_features": ["diagnostics", "drug_discovery", "ethics"]
+    },
+    {
+        "id": 5,
+        "category": "research_report",
+        "prompt": "Research the current state of electric vehicles and write a report on Tesla, BYD, and other major manufacturers.",
+        "expected_features": ["manufacturer_comparison", "market_data", "technology"]
+    },
+    {
+        "id": 6,
+        "category": "comparative_analysis",
+        "prompt": "Compare the top 3 cloud platforms (AWS, Azure, GCP) in terms of AI/ML services, pricing, and developer experience.",
+        "expected_features": ["three_platforms", "pricing", "comparison"]
+    },
+    {
+        "id": 7,
+        "category": "comparative_analysis",
+        "prompt": "Compare Python, JavaScript, and Rust for backend web development including performance, ecosystem, and learning curve.",
+        "expected_features": ["three_languages", "performance", "ecosystem"]
+    },
+    {
+        "id": 8,
+        "category": "comparative_analysis",
+        "prompt": "Analyze and compare the top 3 LLM providers: OpenAI, Anthropic, and Google DeepMind in terms of model capabilities and pricing.",
+        "expected_features": ["three_providers", "capabilities", "pricing"]
+    },
+    {
+        "id": 9,
+        "category": "comparative_analysis",
+        "prompt": "Compare React, Vue, and Angular for frontend development covering performance, community, and enterprise adoption.",
+        "expected_features": ["three_frameworks", "performance", "adoption"]
+    },
+    {
+        "id": 10,
+        "category": "code_analysis",
+        "prompt": "Research sorting algorithms, write a Python script comparing bubble sort, merge sort, and quick sort performance, and compile a report.",
+        "expected_features": ["code_snippet", "comparison", "performance_data"]
+    },
+    {
+        "id": 11,
+        "category": "code_analysis",
+        "prompt": "Research machine learning frameworks, write a Python script that creates a simple classification model, and summarize findings.",
+        "expected_features": ["code_snippet", "ml_framework", "summary"]
+    },
+    {
+        "id": 12,
+        "category": "code_analysis",
+        "prompt": "Research data visualization libraries in Python, write a script that generates sample charts, and compile best practices.",
+        "expected_features": ["code_snippet", "visualization", "best_practices"]
+    },
+    {
+        "id": 13,
+        "category": "multi_topic",
+        "prompt": "Research both blockchain technology and cybersecurity trends, then write a combined analysis of how they intersect.",
+        "expected_features": ["blockchain", "cybersecurity", "intersection"]
+    },
+    {
+        "id": 14,
+        "category": "multi_topic",
+        "prompt": "Research space exploration advances by NASA and SpaceX, then analyze the commercial space industry outlook.",
+        "expected_features": ["nasa", "spacex", "commercial_outlook"]
+    },
+    {
+        "id": 15,
+        "category": "multi_topic",
+        "prompt": "Research the gig economy and remote work trends post-2024, covering platforms, worker rights, and future predictions.",
+        "expected_features": ["platforms", "worker_rights", "predictions"]
+    }
+]

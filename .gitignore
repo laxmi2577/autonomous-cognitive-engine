@@ -1,0 +1,24 @@
+# Autonomous Cognitive Engine
+venv/
+__pycache__/
+*.pyc
+*.pyo
+.env
+.env.*
+!.env.example
+*.egg-info/
+dist/
+build/
+.langsmith/
+.DS_Store
+Thumbs.db
+*.log
+.vscode/
+.idea/
+pdf_content.txt
+docx_content.txt
+extract_docs.py
+AI_Autonomous Cognitive Engine for Deep Research and Long-Horizon Tasks .pdf
+Recommended Team Division Strategy for Your Project.docx
+pdf.txt
+walkthrough.md
