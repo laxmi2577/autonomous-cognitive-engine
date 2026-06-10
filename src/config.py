@@ -9,77 +9,76 @@ from pathlib import Path
 from dotenv import load_dotenv
 
 # ──────────────────────────────────────────────
-# Load environment variables from .env file (local)
-# or from Streamlit Cloud secrets (deployed)
+# Load environment variables from .env file (local dev)
 # ──────────────────────────────────────────────
 PROJECT_ROOT = Path(__file__).parent.parent
 ENV_PATH = PROJECT_ROOT / ".env"
 load_dotenv(ENV_PATH)
 
-# On Streamlit Cloud, inject st.secrets into os.environ
-try:
-    import streamlit as st
-    if hasattr(st, "secrets") and len(st.secrets) > 0:
-        for key, value in st.secrets.items():
-            if isinstance(value, str):
-                os.environ[key] = value
-except Exception:
-    pass
 
-
-def _load_config():
-    """Read all config values from os.environ (called fresh each time)."""
-    return {
-        "GROQ_API_KEY": os.environ.get("GROQ_API_KEY", ""),
-        "LLM_MODEL": os.environ.get("LLM_MODEL", "llama-3.3-70b-versatile"),
-        "LLM_TEMPERATURE": float(os.environ.get("LLM_TEMPERATURE", "0.4")),
-        "LANGCHAIN_TRACING_V2": os.environ.get("LANGCHAIN_TRACING_V2", "false"),
-        "LANGCHAIN_API_KEY": os.environ.get("LANGCHAIN_API_KEY", ""),
-        "LANGCHAIN_PROJECT": os.environ.get("LANGCHAIN_PROJECT", "autonomous-cognitive-engine"),
-        "MAX_AGENT_ITERATIONS": int(os.environ.get("MAX_AGENT_ITERATIONS", "25")),
-        "RECURSION_LIMIT": int(os.environ.get("RECURSION_LIMIT", "50")),
-    }
+def _get_secret(key, default=""):
+    """Get a config value from os.environ OR Streamlit Cloud secrets."""
+    # 1. Try os.environ first (works locally with .env)
+    val = os.environ.get(key, "")
+    if val:
+        return val
+    # 2. Try Streamlit Cloud secrets
+    try:
+        import streamlit as st
+        if hasattr(st, "secrets") and key in st.secrets:
+            return str(st.secrets[key])
+    except Exception:
+        pass
+    return default
 
 
 # ──────────────────────────────────────────────
-# Module-level config (for backward compatibility)
+# LLM Provider: Groq (fast, free tier)
 # ──────────────────────────────────────────────
-_cfg = _load_config()
-GROQ_API_KEY = _cfg["GROQ_API_KEY"]
-LLM_MODEL = _cfg["LLM_MODEL"]
-LLM_TEMPERATURE = _cfg["LLM_TEMPERATURE"]
-LANGCHAIN_TRACING_V2 = _cfg["LANGCHAIN_TRACING_V2"]
-LANGCHAIN_API_KEY = _cfg["LANGCHAIN_API_KEY"]
-LANGCHAIN_PROJECT = _cfg["LANGCHAIN_PROJECT"]
-MAX_AGENT_ITERATIONS = _cfg["MAX_AGENT_ITERATIONS"]
-RECURSION_LIMIT = _cfg["RECURSION_LIMIT"]
+GROQ_API_KEY = _get_secret("GROQ_API_KEY")
+LLM_MODEL = _get_secret("LLM_MODEL", "llama-3.3-70b-versatile")
+LLM_TEMPERATURE = float(_get_secret("LLM_TEMPERATURE", "0.4"))
+
+# ──────────────────────────────────────────────
+# LangSmith Observability
+# ──────────────────────────────────────────────
+LANGCHAIN_TRACING_V2 = _get_secret("LANGCHAIN_TRACING_V2", "false")
+LANGCHAIN_API_KEY = _get_secret("LANGCHAIN_API_KEY")
+LANGCHAIN_PROJECT = _get_secret("LANGCHAIN_PROJECT", "autonomous-cognitive-engine")
 
 os.environ["LANGCHAIN_TRACING_V2"] = LANGCHAIN_TRACING_V2
 if LANGCHAIN_API_KEY:
     os.environ["LANGCHAIN_API_KEY"] = LANGCHAIN_API_KEY
 os.environ["LANGCHAIN_PROJECT"] = LANGCHAIN_PROJECT
 
+# ──────────────────────────────────────────────
+# Agent Configuration
+# ──────────────────────────────────────────────
+MAX_AGENT_ITERATIONS = int(_get_secret("MAX_AGENT_ITERATIONS", "25"))
+RECURSION_LIMIT = int(_get_secret("RECURSION_LIMIT", "50"))
+
 
 def validate_config():
     """Validate that required configuration is present."""
     global GROQ_API_KEY, LLM_MODEL, LLM_TEMPERATURE
     global LANGCHAIN_TRACING_V2, LANGCHAIN_API_KEY, LANGCHAIN_PROJECT
-    
-    # Re-read from os.environ (secrets may have been injected after import)
-    cfg = _load_config()
-    GROQ_API_KEY = cfg["GROQ_API_KEY"]
-    LLM_MODEL = cfg["LLM_MODEL"]
-    LLM_TEMPERATURE = cfg["LLM_TEMPERATURE"]
-    LANGCHAIN_TRACING_V2 = cfg["LANGCHAIN_TRACING_V2"]
-    LANGCHAIN_API_KEY = cfg["LANGCHAIN_API_KEY"]
-    LANGCHAIN_PROJECT = cfg["LANGCHAIN_PROJECT"]
-    
-    # Set env vars for langchain
+
+    # Re-read fresh (secrets may have been injected after module import)
+    GROQ_API_KEY = _get_secret("GROQ_API_KEY")
+    LLM_MODEL = _get_secret("LLM_MODEL", "llama-3.3-70b-versatile")
+    LLM_TEMPERATURE = float(_get_secret("LLM_TEMPERATURE", "0.4"))
+    LANGCHAIN_TRACING_V2 = _get_secret("LANGCHAIN_TRACING_V2", "false")
+    LANGCHAIN_API_KEY = _get_secret("LANGCHAIN_API_KEY")
+    LANGCHAIN_PROJECT = _get_secret("LANGCHAIN_PROJECT", "autonomous-cognitive-engine")
+
+    # Ensure env vars are set for langchain internals
+    if GROQ_API_KEY:
+        os.environ["GROQ_API_KEY"] = GROQ_API_KEY
     os.environ["LANGCHAIN_TRACING_V2"] = LANGCHAIN_TRACING_V2
     if LANGCHAIN_API_KEY:
         os.environ["LANGCHAIN_API_KEY"] = LANGCHAIN_API_KEY
     os.environ["LANGCHAIN_PROJECT"] = LANGCHAIN_PROJECT
-    
+
     errors = []
     if not GROQ_API_KEY or GROQ_API_KEY == "your_groq_key_here":
         errors.append("GROQ_API_KEY is not set. Get one free at https://console.groq.com/keys")
@@ -100,4 +99,3 @@ def validate_config():
 
 if __name__ == "__main__":
     validate_config()
-
