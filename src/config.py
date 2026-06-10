@@ -9,11 +9,22 @@ from pathlib import Path
 from dotenv import load_dotenv
 
 # ──────────────────────────────────────────────
-# Load environment variables from .env file
+# Load environment variables from .env file (local)
+# or from Streamlit Cloud secrets (deployed)
 # ──────────────────────────────────────────────
 PROJECT_ROOT = Path(__file__).parent.parent
 ENV_PATH = PROJECT_ROOT / ".env"
 load_dotenv(ENV_PATH)
+
+# On Streamlit Cloud, inject st.secrets into os.environ
+try:
+    import streamlit as st
+    if hasattr(st, "secrets") and len(st.secrets) > 0:
+        for key, value in st.secrets.items():
+            if isinstance(value, str):
+                os.environ.setdefault(key, value)
+except Exception:
+    pass
 
 
 # ──────────────────────────────────────────────
