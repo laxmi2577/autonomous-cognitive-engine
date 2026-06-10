@@ -1,0 +1,65 @@
+{
+  "timestamp": "20260606_204257",
+  "model": "llama-3.3-70b-versatile",
+  "total_tests": 3,
+  "completed": 2,
+  "results": [
+    {
+      "id": 1,
+      "category": "research_report",
+      "prompt": "Research the current state of quantum computing and write a comprehensive report covering major companies, breakthroughs, and applications.",
+      "status": "completed",
+      "scores": {
+        "completeness": 3,
+        "structure": 4,
+        "accuracy": 3,
+        "depth": 3,
+        "plan_used": true,
+        "delegation_used": false,
+        "files_created": false,
+        "overall_rating": "good",
+        "feedback": "The agent provided a well-structured and solid report on the current state of quantum computing, covering major companies, breakthroughs, and applications, but lacked some depth and analysis in certain areas."
+      },
+      "agent_metadata": {
+        "todo_count": 0,
+        "file_count": 0,
+        "delegation_count": 5,
+        "iteration_count": 2
+      },
+      "elapsed_seconds": 339.5328018665314
+    },
+    {
+      "id": 2,
+      "category": "research_report",
+      "prompt": "Research the top 5 programming languages in 2026 and compare their popularity, use cases, and job market demand.",
+      "status": "completed",
+      "scores": {
+        "completeness": 3,
+        "structure": 4,
+        "accuracy": 3,
+        "depth": 2,
+        "plan_used": false,
+        "delegation_used": false,
+        "files_created": false,
+        "overall_rating": "good",
+        "feedback": "The agent provided a well-structured and mostly accurate response, but lacked depth in its analysis and comparison of the programming languages."
+      },
+      "agent_metadata": {
+        "todo_count": 0,
+        "file_count": 4,
+        "delegation_count": 5,
+        "iteration_count": 2
+      },
+      "elapsed_seconds": 210.8401448726654
+    },
+    {
+      "id": 3,
+      "category": "research_report",
+      "prompt": "Research renewable energy trends globally and write a report on solar, wind, and battery storage developments.",
+      "status": "error",
+      "error": "Agent node failed after 5 retries. Last error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01ktdsed1peast8w35esaxk2xe` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 96597, Requested 3614. Please try again in 3m2.304s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}",
+      "scores": null,
+      "elapsed_seconds": 355.13096928596497
+    }
+  ]
+}
