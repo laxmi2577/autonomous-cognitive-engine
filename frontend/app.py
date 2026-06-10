@@ -10,6 +10,7 @@ Features:
 - LangSmith tracing link
 """
 
+import os
 import sys
 from pathlib import Path
 
@@ -313,9 +314,17 @@ st.markdown(
 # Check config
 if not initialize_agent():
     st.error(
-        "⚠️ **Configuration Error**: Please set your `GROQ_API_KEY` in the `.env` file.\n\n"
+        "⚠️ **Configuration Error**: Please set your `GROQ_API_KEY`.\n\n"
         "Get an API key at: [Groq Console](https://console.groq.com/keys)"
     )
+    # Debug info to diagnose secrets issue
+    try:
+        secret_keys = list(st.secrets.keys()) if hasattr(st, "secrets") else []
+        st.warning(f"🔍 Debug: Streamlit secrets keys found: {secret_keys}")
+    except Exception as e:
+        st.warning(f"🔍 Debug: st.secrets error: {e}")
+    env_groq = os.environ.get("GROQ_API_KEY", "NOT FOUND")
+    st.warning(f"🔍 Debug: os.environ GROQ_API_KEY = {'SET ✅' if env_groq and env_groq != 'NOT FOUND' else 'NOT FOUND ❌'}")
     st.stop()
 
 # Display chat history
